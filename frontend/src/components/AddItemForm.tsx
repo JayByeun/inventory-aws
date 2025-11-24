@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AddItemForm({ onAdd }: { onAdd: () => void }) {
 	const [name, setName] = useState("");
 	const [quantity, setQuantity] = useState(0);
 	const [file, setFile] = useState<File | null>(null);
+	const [disabled, setDisabled] = useState<boolean>(true);
+	useEffect(() => {
+		if (!name || quantity <= 0) {
+			setDisabled(true);
+		} else {
+			setDisabled(false);
+		}
+	}, [name, quantity]);
 
 	const toBase64 = (file: File) =>
 		new Promise<string>((resolve, reject) => {
@@ -41,20 +49,22 @@ export default function AddItemForm({ onAdd }: { onAdd: () => void }) {
 			onSubmit={handleSubmit}
 			className="flex flex-col space-y-2 p-3 bg-gray-50 rounded shadow"
 		>
-			<input
-				type="text"
-				placeholder="Item Name"
-				value={name}
-				onChange={(e) => setName(e.target.value)}
-				className="border border-gray-300 rounded px-2 py-1"
-			/>
-			<input
-				type="number"
-				placeholder="Quantity"
-				value={quantity}
-				onChange={(e) => setQuantity(Number(e.target.value))}
-				className="border border-gray-300 rounded px-2 py-1 w-24"
-			/>
+			<div className="flex w-full gap-2">
+				<input
+					type="text"
+					placeholder="Item Name"
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+					className="flex-2 border border-gray-300 rounded px-2 py-1"
+				/>
+				<input
+					type="number"
+					placeholder="Quantity"
+					value={quantity}
+					onChange={(e) => setQuantity(Number(e.target.value))}
+					className="flex-1 border border-gray-300 rounded px-2 py-1"
+				/>
+			</div>
 
 			<input
 				type="file"
@@ -64,7 +74,11 @@ export default function AddItemForm({ onAdd }: { onAdd: () => void }) {
 
 			<button
 				type="submit"
-				className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+				className={`
+					px-3 py-1 rounded
+					text-white
+					${disabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"}
+				`}
 			>
 				Add Item
 			</button>

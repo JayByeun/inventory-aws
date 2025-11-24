@@ -9,7 +9,7 @@ export default function App() {
 	return (
 		<div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow">
 			<h1 className="text-3xl font-bold mb-4">
-				Smart Inventory Dashboard
+				Jay's Smart Inventory Dashboard!
 			</h1>
 			<AddItemForm onAdd={refreshList} />
 			<InventoryList refresh={refresh} />
