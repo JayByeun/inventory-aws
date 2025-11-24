@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const client = new DynamoDBClient({ endpoint: "http://localhost:4567", region: "us-east-1" });
 
-
 export const createItem = async (name: string, quantity: number) => {
   const id = uuidv4();
   await client.send(
