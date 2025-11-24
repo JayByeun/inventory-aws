@@ -53,7 +53,7 @@ inventory-aws/
 -   Form submits name, quantity, and optional file (converted to Base64) via POST to /lambda/addItem.
 -   Backend triggers Lambda function (addItemLambda.ts).
 -   Lambda parses the request:
-    -   If a file exists, Lambda uploads the file to S3 using s3Utils.ts.
+    -   If a file exists, Lambda uploads the file to S3 using s3Utils.ts.(did not added yet)
     -   Item data (name, quantity, optional S3 file URL) is stored in DynamoDB.
 
 ### Fetch Items
