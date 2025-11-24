@@ -20,8 +20,6 @@ export function ConfirmDialog({
 	cancelText = "Cancel",
 	onConfirm,
 }: ConfirmDialogProps) {
-	const [inputValue, setInputValue] = React.useState("");
-
 	return (
 		<AlertDialog.Root open={open} onOpenChange={onOpenChange}>
 			<AlertDialog.Portal>
