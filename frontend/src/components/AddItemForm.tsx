@@ -8,7 +8,7 @@ export default function AddItemForm({ onAdd }: { onAdd: () => void }) {
 		e.preventDefault();
 		if (!name || quantity <= 0) return;
 
-		await fetch("http://localhost:3001/items", {
+		await fetch("http://localhost:3001/lambda/addItem", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ name, quantity }),

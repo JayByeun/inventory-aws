@@ -1,15 +1,25 @@
 {
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.936.0",
+    "@aws-sdk/client-s3": "^3.937.0",
+    "@aws-sdk/s3-request-presigner": "^3.937.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "serve-static": "^2.2.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
     "@types/node": "^24.10.1",
+    "@types/serve-static": "^2.2.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "undici": "^7.16.0"
+  },
+  "type": "module",
+  "scripts": {
+    "start:backend": "node --loader ts-node/esm backend/server.ts",
+    "create:table": "node --loader ts-node/esm backend/createTable.ts"
   }
 }
