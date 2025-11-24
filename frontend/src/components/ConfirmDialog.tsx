@@ -17,7 +17,6 @@ export function ConfirmDialog({
 	title,
 	description,
 	confirmText,
-	cancelText = "Cancel",
 	onConfirm,
 }: ConfirmDialogProps) {
 	return (

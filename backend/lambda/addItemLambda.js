@@ -1,6 +1,7 @@
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-const ddb = new DynamoDBClient({ endpoint: "http://localhost:4567", region: "us-east-1" });
+import { BUCKET, TABLE_NAME } from "../utils/names.js";
+const db = new DynamoDBClient({ endpoint: "http://localhost:4567", region: "us-east-1" });
 const s3 = new S3Client({ endpoint: "http://localhost:4567", region: "us-east-1", forcePathStyle: true });
 export async function handler(event) {
     const { name, quantity, fileBase64, fileName } = JSON.parse(event.body);
@@ -10,13 +11,13 @@ export async function handler(event) {
         const buffer = Buffer.from(base64Data, "base64");
         s3Key = `uploads/${crypto.randomUUID()}-${fileName}`;
         await s3.send(new PutObjectCommand({
-            Bucket: "inventory-bucket",
+            Bucket: BUCKET,
             Key: s3Key,
             Body: buffer,
         }));
     }
     const params = {
-        TableName: "Inventory",
+        TableName: TABLE_NAME,
         Item: {
             id: { S: crypto.randomUUID() },
             name: { S: name },
@@ -25,7 +26,7 @@ export async function handler(event) {
             fileName: { S: fileName || "" },
         },
     };
-    await ddb.send(new PutItemCommand(params));
+    await db.send(new PutItemCommand(params));
     return {
         statusCode: 200,
         headers: {

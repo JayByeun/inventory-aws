@@ -3,6 +3,7 @@ import cors from "cors";
 import { getItems } from "./getItems.js";
 import { DynamoDBClient, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
 import { handler as addItemLambda } from "./lambda/addItemLambda.js";
+import { TABLE_NAME } from "./utils/names.js";
 const client = new DynamoDBClient({ endpoint: "http://localhost:4567", region: "us-east-1" });
 const app = express();
 app.use(express.json({ limit: "10mb" }));
@@ -17,7 +18,7 @@ app.get("/items", async (req, res) => {
     const items = await getItems();
     res.json(items);
 });
-// Create Items
+// CREATE Items
 app.post("/lambda/addItem", async (req, res) => {
     const response = await addItemLambda({ body: JSON.stringify(req.body) });
     res.status(response.statusCode).send(response.body);
@@ -27,7 +28,7 @@ app.delete("/items/:id", async (req, res) => {
     const { id } = req.params;
     try {
         await client.send(new DeleteItemCommand({
-            TableName: "Inventory",
+            TableName: TABLE_NAME,
             Key: { id: { S: id } },
         }));
         res.json({ success: true });

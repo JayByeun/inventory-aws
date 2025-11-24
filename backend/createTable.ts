@@ -1,4 +1,5 @@
 import { DynamoDBClient, CreateTableCommand, ScalarAttributeType, KeyType } from "@aws-sdk/client-dynamodb";
+import { TABLE_NAME } from "./utils/names.js";
 
 const client = new DynamoDBClient({
   region: "us-east-1",
@@ -6,14 +7,14 @@ const client = new DynamoDBClient({
 });
 
 const params = {
-  TableName: "Inventory",
+  TableName: TABLE_NAME,
   KeySchema: [
     { AttributeName: "id", KeyType: "HASH" as KeyType },
   ],
   AttributeDefinitions: [
     { AttributeName: "id", AttributeType: "S" as ScalarAttributeType },
   ],
-  BillingMode: "PAY_PER_REQUEST" as const, // literal type
+  BillingMode: "PAY_PER_REQUEST" as const,
 };
 
 async function main() {
