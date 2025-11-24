@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { createItem } from "./createItem.js";
 import { getItems } from "./getItems.js";
 import { DynamoDBClient, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
 import { handler as addItemLambda } from "./lambda/addItemLambda.js";
@@ -22,7 +21,7 @@ app.get("/items", async (req: Request, res: Response) => {
   res.json(items);
 });
 
-// Create Items
+// CREATE Items
 app.post("/lambda/addItem", async (req, res) => {
   const response = await addItemLambda({ body: JSON.stringify(req.body) });
   res.status(response.statusCode).send(response.body);
