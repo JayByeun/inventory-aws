@@ -72,10 +72,7 @@ export default function InventoryList({ refresh }: { refresh: number }) {
 					description={`Are you sure you want to delete "${selectedItem.name}"?`}
 					confirmText="Delete"
 					cancelText="Cancel"
-					onConfirm={(inputValue) => {
-						console.log("Reason:", inputValue);
-						handleDelete(selectedItem.id);
-					}}
+					onConfirm={() => handleDelete(selectedItem.id)}
 				/>
 			)}
 		</div>
