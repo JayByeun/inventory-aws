@@ -5,19 +5,19 @@ import { DynamoDBClient, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
 import { handler as addItemLambda } from "./lambda/addItemLambda.js";
 const client = new DynamoDBClient({ endpoint: "http://localhost:4567", region: "us-east-1" });
 const app = express();
-app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type",
+}));
 // GET items
 app.get("/items", async (req, res) => {
     const items = await getItems();
     res.json(items);
 });
-// // POST item
-// app.post("/items", async (req: Request, res: Response) => {
-//   const { name, quantity } = req.body;
-//   const item = await createItem(name, quantity);
-//   res.json(item);
-// });
+// Create Items
 app.post("/lambda/addItem", async (req, res) => {
     const response = await addItemLambda({ body: JSON.stringify(req.body) });
     res.status(response.statusCode).send(response.body);

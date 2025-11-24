@@ -5,6 +5,7 @@ interface Item {
 	id: string;
 	name: string;
 	quantity: number;
+	fileName?: string;
 }
 
 export default function InventoryList({ refresh }: { refresh: number }) {
@@ -44,6 +45,15 @@ export default function InventoryList({ refresh }: { refresh: number }) {
 						<span>
 							{item.name} ({item.quantity})
 						</span>
+						{item.fileName && (
+							<a
+								href={`http://localhost:4567/inventory-bucket/${item.fileName}`}
+								target="_blank"
+								className="ml-2 text-blue-600 underline"
+							>
+								📎 {item.fileName}
+							</a>
+						)}
 						<button
 							onClick={() => openDeleteDialog(item)}
 							className="btn px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"

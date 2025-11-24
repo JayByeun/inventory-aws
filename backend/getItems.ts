@@ -9,6 +9,7 @@ export async function getItems() {
     id: item.id.S,
     name: item.name.S,
     quantity: Number(item.quantity.N),
+    fileName: item.fileName?.S || null,
   })) || [];
 }
 
